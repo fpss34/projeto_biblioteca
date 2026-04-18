@@ -1,0 +1,23 @@
+SERVIDOR MARIADB
+
+
+CREATE USER 'maria'@'%' IDENTIFIED BY '123456';
+GRANT ALL PRIVILEGES ON *.* TO 'maria'@'%' WITH GRANT OPTION;
+FLUSH PRIVILEGES;
+
+
+CREATE TABLE livro 
+(id INT AUTO_INCREMENT PRIMARY KEY,
+ titulo VARCHAR(200) NOT NULL,
+ autor VARCHAR(150) NOT NULL,
+ ano INT,
+ editora VARCHAR(150),
+ edicao VARCHAR(50),
+ localizacao VARCHAR(100));
+
+INSERT INTO livro (titulo, autor, ano, editora, edicao, localizacao) VALUES
+ ('Dom Casmurro', 'Machado de Assis', 1899, 'Editora Garnier', '1ª edição', 'Estante A - Prateleira 1'), 
+ ('O Alquimista', 'Paulo Coelho', 1988, 'Rocco', '1ª edição', 'Estante B - Prateleira 2'),
+ ('Memórias Póstumas de Brás Cubas', 'Machado de Assis', 1881, 'Tipografia Nacional', '1ª edição', 'Estante A - Prateleira 2'),
+ ('A Revolução dos Bichos', 'George Orwell', 1945, 'Secker & Warburg', '1ª edição', 'Estante C - Prateleira 1'),
+ ('Capitães da Areia', 'Jorge Amado', 1937, 'Editora José Olympio', '1ª edição', 'Estante B - Prateleira 3');
