@@ -8,7 +8,6 @@ Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 
-
 def get_db():
     db = SessionLocal()
     try:
@@ -23,3 +22,29 @@ def test_db(db: Session = Depends(get_db)):
  return {"status": "ok", "mensagem": "Conectado ao MariaDB com sucesso!"}
  except Exception as e:
  raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.post("/livros/")
+def criar_livro(livro: dict, db: Session = Depends(get_db)):
+    novo = models.Livro(**livro)
+    db.add(novo)
+    db.commit()
+    db.refresh(novo)
+    return novo
+
+@app.get("/livros/")
+def listar_livros(db: Session = Depends(get_db)):
+    return db.query(models.Livro).all()
+
+
+@app.get("/livros/{id}")
+def buscar_livro(id: int, db: Session = Depends(get_db)):
+    return db.query(models.Livro).filter(models.Livro.id == id).first()
+
+@app.delete("/livros/{id}")
+def deletar_livro(id: int, db: Session = Depends(get_db)):
+    livro = db.query(models.Livro).filter(models.Livro.id == id).first()
+    db.delete(livro)
+    db.commit()
+    return {"mensagem": "Livro removido"}
+
